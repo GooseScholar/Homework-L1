@@ -1,26 +1,26 @@
-task 1 - на проверку
-task 2 - на проверку
-task 3 - на проверку
-task -
-task -
-task -
-task -
-task -
-task -
-task -
-task -
-task -
-task 13 - на проверку
-task 14 - доделать
-task -
-task -
-task -
-task -
-task -
-task 20 - на проверку
-task -
-task -
-task 23 - на проверку
-task 24 - на проверку
-task -
-task -
+task 1 - выполнено  \
+task 2 - выполнено  \
+task 3 - выполнено  \
+task -  \
+task -  \
+task 6 - на проверку  \
+task 7 - на проверку  \
+task 8 - на проверку  \
+task -  \
+task 10 - на проверку  \
+task 11 - на проверку  \
+task 12 - на проверку  \
+task 13 - на проверку  \
+task 14 - выполнено  \
+task 15 -  \
+task 16 - на проверку  \
+task 17 - на проверку  \
+task 18 - на проверку  \
+task 19 - на проверку  \
+task 20 - на проверку  \
+task 21 -  \
+task 22 - на проверку  \
+task 23 - на проверку  \
+task 24 - на проверку  \
+task 25 -  \
+task 26 - на проверку  \

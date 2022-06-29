@@ -8,14 +8,18 @@ int, string, bool, channel из переменной типа interface{}.
 */
 
 func main() {
+
 	do("Это строка")
 	do(67)
 	do(true)
 	do(67.2)
+	do(make(chan int))
+	do(make(chan string))
+	do(make(chan bool))
+	do(make(chan float32))
+
 }
 
-/*Метод распознавания типа переменной. Сhannel невозможно передать в переменной типа пустой интерфейс.
-В следствии этого принято решение опустить распознавание типа данных channel в методе распознавания.*/
 func do(i interface{}) {
 
 	switch t := i.(type) {
@@ -25,8 +29,14 @@ func do(i interface{}) {
 		fmt.Printf("тип данных string: %s\n", t)
 	case bool:
 		fmt.Printf("тип данных bool: %v\n", t)
+	case chan int:
+		fmt.Printf("тип данных chan int\n")
+	case chan string:
+		fmt.Printf("тип данных chan string\n")
+	case chan bool:
+		fmt.Printf("тип данных chan bool\n")
 	default:
-		fmt.Printf("тип данных не распознан: %v\n", t)
+		fmt.Printf("тип данных не распознан\n")
 	}
 
 }

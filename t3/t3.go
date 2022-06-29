@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"time"
+	"sync"
+	"sync/atomic"
 )
 
 /*
@@ -11,20 +12,20 @@ import (
 */
 
 func main() {
+	var wg sync.WaitGroup
 	//Входные данные
-	array := []int{2, 4, 6, 8, 10}
-	sum := 0
+	array := []int32{2, 4, 6, 8, 10}
+	wg.Add(len(array))
+	var sum int32 = 0
 
 	//Поэлеменьный расчет суммы квадратов элементов массива через цикл
 	for _, a := range array {
-		go sumSq(a, &sum)
+		go func(a int32) {
+			defer wg.Done()
+			atomic.AddInt32(&sum, a*a)
+		}(a)
 	}
 
-	time.Sleep(1 * time.Second)
-
+	wg.Wait()
 	fmt.Println(sum)
-}
-
-func sumSq(a int, sum *int) {
-	*sum += a * a
 }
