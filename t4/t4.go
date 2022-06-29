@@ -1,9 +1,9 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
-	"os/signal"
 	"sync"
 	"time"
 )
@@ -27,7 +27,7 @@ func worker(messagesCh <-chan int, wg *sync.WaitGroup) {
 		d := time.Duration(message) * time.Millisecond
 		time.Sleep(d)
 		fmt.Fprintln(os.Stdout, message)
-		fmt.Println("processing message", message)
+		fmt.Printf("Worker: %d\n", message)
 	}
 }
 
@@ -47,18 +47,14 @@ func pool(wg *sync.WaitGroup, workers, tasks int) {
 }
 
 func main() {
+	ctx := context.Background()
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	var wg sync.WaitGroup
 	N := 5
 	wg.Add(N)
 	go pool(&wg, N, 50)
 
-	doneCh := make(chan bool)
-	go func() {
-		sigCh := make(chan os.Signal, 1)
-		signal.Notify(sigCh, os.Interrupt)
-		<-sigCh
-		wg.Wait()
-		doneCh <- true
-	}()
-	<-doneCh
+	wg.Wait()
 }
