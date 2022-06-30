@@ -23,6 +23,8 @@ func main() {
 
 }
 
+//i - первый элемент, j - последний элемент. Элементы меняются и двигуются друг к другу,
+//(i++, j--), когда i становится >= j функция завершается
 func reverse(message []string) {
 	for i, j := 0, len(message)-1; i < j; i, j = i+1, j-1 {
 		message[i], message[j] = message[j], message[i]

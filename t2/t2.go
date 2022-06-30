@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"sync"
 )
 
@@ -11,9 +10,10 @@ import (
 взятых из массива (2,4,6,8,10) и выведет их квадраты в stdout.
 */
 
+//Конкурентно Вызывает функцию расчета и вызова квадратов элементов массива,
+//для ожидания окончания выполнения горутин используется sync.WaitGroup
 func main() {
 	var wg sync.WaitGroup
-	//Входные данные
 	array := [5]int{2, 4, 6, 8, 10}
 	wg.Add(len(array))
 
@@ -23,8 +23,8 @@ func main() {
 	wg.Wait()
 }
 
-//вывод квадрата числа в stdout
+//Вывод квадрата числа в консоль
 func sqIf(a int, wg *sync.WaitGroup) {
 	defer wg.Done()
-	fmt.Fprintln(os.Stdout, a*a)
+	fmt.Println(a * a)
 }

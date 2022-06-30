@@ -34,6 +34,7 @@ func main() {
 	wg.Wait()
 }
 
+//Запуск воркеров и запись в канал
 func pool(wg *sync.WaitGroup, workers int) {
 	messagesCh := make(chan int)
 
@@ -48,6 +49,7 @@ func pool(wg *sync.WaitGroup, workers int) {
 	close(messagesCh)
 }
 
+//Воркер
 func worker(messagesCh <-chan int, wg *sync.WaitGroup, i int) {
 	defer wg.Done()
 	for {

@@ -2,70 +2,58 @@ package main
 
 import "fmt"
 
-/*Реализовать паттерн «адаптер» на любом примере.*/
-//Интерфейс клиента computer.go
-type computer interface {
-	insertIntoLightningPort()
+/*Реализовать паттерн «адаптер» на любом примере. (Неизвестный турист приехал в Европу)*/
+
+//Интерфейс туриста socket.go
+type socket interface {
+	plugIntoEuropeanSocket()
 }
 
-//Клиентский код client.go
-
-type client struct {
+//Турестический код tourist.go
+type tourist struct {
 }
 
-func (c *client) insertLightningConnectorIntoComputer(com computer) {
-	fmt.Println("Client inserts Lightning connector into computer.")
-	com.insertIntoLightningPort()
+func (t *tourist) plugIntoSocket(s socket) {
+	fmt.Println("Турист вставляет зарядку в европейскую розетку.")
+	s.plugIntoEuropeanSocket()
 }
 
-//Клиентский код
-
-//Сервис mac.go
-
-type mac struct {
+// Европейская зарядка european.go
+type european struct {
 }
 
-func (m *mac) insertIntoLightningPort() {
-	fmt.Println("Lightning connector is plugged into mac machine.")
+func (e *european) plugIntoEuropeanSocket() {
+	fmt.Println("Европейская зарядка подключилась")
 }
 
-//Сервис
+//Неизвестная зарядка unknow.go
+type unknown struct{}
 
-//Неизвестный сервис windows.go
-
-type windows struct{}
-
-func (w *windows) insertIntoUSBPort() {
-	fmt.Println("USB connector is plugged into windows machine.")
+func (u *unknown) plugIntoUnknownSocket() {
+	fmt.Println("Неизвестный турист подключает свою зарядку")
 }
 
-//Неизвестный сервис
-
-//Адаптер windowsAdapter.go
-
-type windowsAdapter struct {
-	windowMachine *windows
+//Адаптер unknownAdapter.go
+type unknownAdapter struct {
+	unknownSocket *unknown
 }
 
-func (w *windowsAdapter) insertIntoLightningPort() {
-	fmt.Println("Adapter converts Lightning signal to USB.")
-	w.windowMachine.insertIntoUSBPort()
+func (u *unknownAdapter) plugIntoEuropeanSocket() {
+	fmt.Println("Адаптер позволил поключить зарядку неизвестного стандарта к европейской розетке")
+	u.unknownSocket.plugIntoUnknownSocket()
 }
-
-//Адаптер
 
 //main
-
 func main() {
-	client := &client{}
-	mac := &mac{}
+	tourist := &tourist{}
+	european := &european{}
 
-	client.insertLightningConnectorIntoComputer(mac)
+	tourist.plugIntoSocket(european)
 
-	windowsMachine := &windows{}
-	windowsMachineAdapter := &windowsAdapter{
-		windowMachine: windowsMachine,
+	unknownSocket := &unknown{}
+	unknownAdapter := &unknownAdapter{
+		unknownSocket: unknownSocket,
 	}
 
-	client.insertLightningConnectorIntoComputer(windowsMachineAdapter)
+	tourist.plugIntoSocket(unknownAdapter)
 }

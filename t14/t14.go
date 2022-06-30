@@ -22,6 +22,7 @@ func main() {
 
 func do(i interface{}) {
 
+	//i.(type) определяет тип переменной
 	switch t := i.(type) {
 	case int:
 		fmt.Printf("тип данных int: %d\n", t)

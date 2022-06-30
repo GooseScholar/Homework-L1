@@ -27,6 +27,7 @@ func sleep(n int) {
 	timeout := time.After(time.Duration(n) * time.Second)
 	c := make(chan int, 1)
 
+	//Цикл for ждет спецсигнала - timeout, после чего завершается
 	for {
 		select {
 		case <-timeout:
