@@ -17,7 +17,38 @@ import (
 Выбрать и обосновать способ завершения работы всех воркеров.
 */
 
-func worker(messagesCh <-chan int, wg *sync.WaitGroup) {
+func main() {
+	//Если в канале будут миллионы сообщений, которые нужно ещё обработать, то завершение получится долгим.
+	//Выбран метод прерывания без ожидания выполнения всех горутин.
+	ctx := context.Background()
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
+	var wg sync.WaitGroup
+	N := 30
+	for i := 0; i < N; i++ {
+		wg.Add(1)
+	}
+	go pool(&wg, N)
+
+	wg.Wait()
+}
+
+func pool(wg *sync.WaitGroup, workers int) {
+	messagesCh := make(chan int)
+
+	for i := 1; i <= workers; i++ {
+		go worker(messagesCh, wg, i)
+	}
+
+	for i := 1; i > 0; i++ {
+		messagesCh <- i
+	}
+
+	close(messagesCh)
+}
+
+func worker(messagesCh <-chan int, wg *sync.WaitGroup, i int) {
 	defer wg.Done()
 	for {
 		message, ok := <-messagesCh
@@ -26,35 +57,7 @@ func worker(messagesCh <-chan int, wg *sync.WaitGroup) {
 		}
 		d := time.Duration(message) * time.Millisecond
 		time.Sleep(d)
-		fmt.Fprintln(os.Stdout, message)
-		fmt.Printf("Worker: %d\n", message)
+		fmt.Printf("Worker %d: ", i)
+		fmt.Fprintln(os.Stdout, message*message)
 	}
-}
-
-func pool(wg *sync.WaitGroup, workers, tasks int) {
-	messagesCh := make(chan int)
-
-	for i := 0; i < workers; i++ {
-		go worker(messagesCh, wg)
-	}
-
-	for i := 1; i > 0; i++ {
-		messagesCh <- i
-		time.Sleep(500 * time.Microsecond)
-	}
-
-	close(messagesCh)
-}
-
-func main() {
-	ctx := context.Background()
-	ctx, cancel := context.WithCancel(ctx)
-	defer cancel()
-
-	var wg sync.WaitGroup
-	N := 5
-	wg.Add(N)
-	go pool(&wg, N, 50)
-
-	wg.Wait()
 }

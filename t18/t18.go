@@ -10,6 +10,7 @@ import (
 Реализовать структуру-счетчик, которая будет инкрементироваться в конкурентной среде.
 По завершению программа должна выводить итоговое значение счетчика.
 */
+
 //Первый счетчик работает через atomic
 type Counter1 struct {
 	count int32
@@ -67,8 +68,8 @@ func DoSomething(c1 *Counter1, c2 *Counter2, wg *sync.WaitGroup) {
 
 	go func(c1 *Counter1, c2 *Counter2, wg *sync.WaitGroup) {
 		defer wg.Done()
-		c2.Counter2Add()
 		atomic.AddInt32(&c1.count, 1)
+		c2.Counter2Add()
 	}(c1, c2, wg)
 
 }

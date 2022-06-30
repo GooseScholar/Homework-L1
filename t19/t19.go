@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strings"
 )
 
 /*Разработать программу, которая переворачивает подаваемую на ход строку (например: «главрыба — абырвалг»).
@@ -10,19 +9,18 @@ import (
 
 func main() {
 	//Входные данные
-	input := "главрыба"
-	fmt.Println(input)
+	input := []rune("главрыба")
+	fmt.Println(string(input))
 	//Разбираем строку на слайс, где каждому индексу приравнивается только один символ строки input
-	array := strings.Split(input, "")
 	//Переворачиваем слайс
-	swap(array)
+	swap(input)
 	//Сложение слайса в строку и забись в переменную output
-	output := strings.Join(array, "")
+	output := string(input)
 	fmt.Println(output)
 
 }
 
-func swap(a []string) {
+func swap(a []rune) {
 	for i, j := 0, len(a)-1; i < j; i, j = i+1, j-1 {
 		a[i], a[j] = a[j], a[i]
 	}

@@ -23,16 +23,17 @@ func main() {
 
 }
 
-func checkMessage(m string) bool {
+//Работает только с латинскими буквами
+func checkMessage(m string) (string, bool) {
 	var bitset uint32 = 0
 	for _, ch := range strings.ToLower(m) {
 		if unicode.IsLetter(ch) {
 			if index := ch - 'a'; bitset&(1<<index) == 0 {
 				bitset |= 1 << index
 			} else {
-				return false
+				return m, false
 			}
 		}
 	}
-	return true
+	return m, true
 }

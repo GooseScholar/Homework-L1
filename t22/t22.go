@@ -11,11 +11,15 @@ import (
 */
 
 func main() {
-	//Введите значения переменных, от от –9 223 372 036 854 775 808 до 9 223 372 036 854 775 807
+	//Введите значения переменных строки (любые целочисленные значения в десятичной системе)
+	valueA := "90485789743533425524534643543"
+	valueB := "429493324342342232134436"
 
-	a := big.NewInt(9048578974353342552)
-	b := big.NewInt(4294933243423424436)
-	fmt.Printf("Первая переменная: %v\nВторая пременная:  %v\n", a, b)
+	a := new(big.Int)
+	a.SetString(valueA, 10)
+	b := new(big.Int)
+	b.SetString(valueB, 10)
+	fmt.Printf("Первая переменная: %v\nВторая  пременная: %v\n", a, b)
 	plus(a, b)
 	subtract(a, b)
 	multiply(a, b)
@@ -24,7 +28,7 @@ func main() {
 }
 
 func plus(a, b *big.Int) {
-	fmt.Printf("Результат сложения:  %v\n", big.NewInt(0).Add(a, b))
+	fmt.Printf("Результат  сложения: %v\n", big.NewInt(0).Add(a, b))
 }
 
 func subtract(a, b *big.Int) {
@@ -36,5 +40,5 @@ func multiply(a, b *big.Int) {
 }
 
 func divide(a, b *big.Int) {
-	fmt.Printf("Результат деления:   %v\n", big.NewInt(0).Div(a, b))
+	fmt.Printf("Результат   деления: %v\n", big.NewInt(0).Div(a, b))
 }
